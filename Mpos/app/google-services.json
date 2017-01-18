@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "929896615398",
+    "firebase_url": "https://mpos-89a05.firebaseio.com",
+    "project_id": "mpos-89a05",
+    "storage_bucket": "mpos-89a05.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929896615398:android:f1463d58d57add11",
+        "android_client_info": {
+          "package_name": "com.app.mpos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "929896615398-t05tjk0ghpq8gst6usnv2ai6fbqbo698.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.mpos",
+            "certificate_hash": "4BC801382E8F36DB6D57605F5FB92B420E518C21"
+          }
+        },
+        {
+          "client_id": "929896615398-42eicd8amm9ro699b0ffd8rmif2u85ji.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.mpos",
+            "certificate_hash": "6E8415398A0BCD85BF021E2F78116ABEFD0852CF"
+          }
+        },
+        {
+          "client_id": "929896615398-m40t0j6uujq8kp8fufjl1460d7sj0cnb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUTArhuv4MLbxFJcxLKKGWdtXkI64B7SA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "929896615398-m40t0j6uujq8kp8fufjl1460d7sj0cnb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
