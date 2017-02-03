@@ -7,18 +7,17 @@ import android.content.Context;
  * Created by aarokiax on 1/6/2017.
  */
 
-public class CatalogueApplication extends Application{
+public class CatalogueApplication{
 
     public static final String TAG = CatalogueApplication.class.getSimpleName();
     private static Context mContext;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mContext=getApplicationContext();
-    }
 
-    public static Context getContext() {
+
+    public static void setCatalogueContext(Context context){
+        mContext=context;
+    }
+    public static Context getCatalogueContext() {
         return mContext;
     }
 }

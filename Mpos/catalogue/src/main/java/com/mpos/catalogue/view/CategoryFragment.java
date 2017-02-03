@@ -2,8 +2,12 @@ package com.mpos.catalogue.view;
 
 
 import android.content.Intent;
+
 import android.os.Bundle;
+
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,12 +17,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
+import com.hyperbound.network.util.VolleyUtil;
 import com.mpos.catalogue.R;
 import com.mpos.catalogue.adapters.CategoryRecyclerViewAdapter;
 
 
 import com.mpos.catalogue.database.AndroidDatabaseManager;
-import com.mpos.catalogue.database.CatalogueDatabaseUtil;
+import com.mpos.catalogue.loader.CategoryLoader;
 import com.mpos.catalogue.model.Category;
 
 import java.util.ArrayList;
@@ -30,11 +35,13 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CategoryFragment extends Fragment implements View.OnClickListener {
+public class CategoryFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<List<Category>> {
 
     EditText categoryNameEditText;
     Button addCategoryButton;
     Button cancelCategoryButton;
+    List<Category> rowListItem;
+    CategoryRecyclerViewAdapter rcAdapter;
 
 
     public CategoryFragment() {
@@ -48,33 +55,24 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_category, container, false);
         categoryNameEditText = (EditText) rootView.findViewById(R.id.categoryaddedittext);
         addCategoryButton = (Button) rootView.findViewById(R.id.categoryaddbutton);
+        //addCategoryButton.setTextColor(Color.WHITE);
         cancelCategoryButton = (Button) rootView.findViewById(R.id.categorycancelbutton);
+        // cancelCategoryButton.setTextColor(Color.WHITE);
         addCategoryButton.setOnClickListener(this);
         cancelCategoryButton.setOnClickListener(this);
-        List<Category> rowListItem = getAllcategoryList();// TODO : replace with MposDatabaseUtil.getAllCategories();
+        rowListItem = new ArrayList<Category>();
         GridLayoutManager lLayout = new GridLayoutManager(getActivity(), 2);
 
         RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.item_recycler_view);
         rView.setHasFixedSize(true);
         rView.setLayoutManager(lLayout);
-        SlideInUpAnimator animator=new SlideInUpAnimator();
+        SlideInUpAnimator animator = new SlideInUpAnimator();
         animator.setRemoveDuration(500);
         rView.setItemAnimator(animator);
-
-        CategoryRecyclerViewAdapter rcAdapter = new CategoryRecyclerViewAdapter(getActivity(), rowListItem);
+        getLoaderManager().initLoader(1, null, this).forceLoad();
+        rcAdapter = new CategoryRecyclerViewAdapter(getActivity(), rowListItem);
         rView.setAdapter(rcAdapter);
         return rootView;
-    }
-
-    private List<Category> getAllcategoryList() {
-        List<Category> categoriesList = new ArrayList<Category>();
-        categoriesList.add(new Category("001", "Breakfast",R.drawable.ic_delete));
-        categoriesList.add(new Category("002", "Lunch",R.drawable.ic_delete));
-        categoriesList.add(new Category("003", "Dinner",R.drawable.ic_delete));
-        categoriesList.add(new Category("004", "Evening Snacks",R.drawable.ic_delete));
-        categoriesList.add(new Category("005", "Thali",R.drawable.ic_delete));
-
-        return categoriesList;
     }
 
     @Override
@@ -82,7 +80,10 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
         if (view.getId() == R.id.categoryaddbutton) {
             String categoryName = categoryNameEditText.getText().toString();
             if (null != categoryName) {
-                CatalogueDatabaseUtil.insertCategory("001", categoryName);
+                VolleyUtil.getAllData("ry1oB7LPx",getActivity());
+                //VolleyUtil.addCategory(categoryName, getActivity());
+                //VolleyUtil.getAllData("ry1oB7LPx",getActivity());
+                //CatalogueDatabaseUtil.insertCategory("001", categoryName);
 
             }
         } else if (view.getId() == R.id.categorycancelbutton) {
@@ -91,7 +92,18 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void addCategory(){
+    @Override
+    public Loader<List<Category>> onCreateLoader(int id, Bundle args) {
+        return new CategoryLoader(getActivity());
+    }
 
+    @Override
+    public void onLoadFinished(Loader<List<Category>> loader, List<Category> data) {
+        rcAdapter.setCategories(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Category>> loader) {
+        rcAdapter.setCategories(new ArrayList<Category>());
     }
 }

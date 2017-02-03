@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    tools:context="com.mpos.catalogue.view.AddItemFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/additemimage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_photo" />
+
+            <EditText
+                android:id="@+id/itemname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Enter item name" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/price_text"
+                android:textSize="40sp" />
+
+            <EditText
+                android:id="@+id/itemprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="0.00"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/quantity_text"
+                android:textSize="40sp" />
+
+            <EditText
+                android:id="@+id/itemquantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="0"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category_text"
+                android:textSize="40sp" />
+
+            <Spinner
+                android:id="@+id/category_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/subcategory_text"
+                android:textSize="40sp" />
+            <Spinner
+                android:id="@+id/subcategory_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description_text"
+                android:textSize="40sp" />
+
+            <EditText
+                android:id="@+id/itemdescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

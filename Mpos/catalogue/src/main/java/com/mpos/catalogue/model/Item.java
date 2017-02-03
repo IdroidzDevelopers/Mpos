@@ -6,12 +6,12 @@ import android.widget.ImageView;
  * Created by aarokiax on 12/26/2016.
  */
 
-public class ItemObject {
+public class Item {
 
    // private String itemName;
     private int itemImage;
 
-    public ItemObject(String itemName, int itemImage) {
+    public Item(String itemName, int itemImage) {
        // this.itemName = itemName;
         this.itemImage = itemImage;
     }

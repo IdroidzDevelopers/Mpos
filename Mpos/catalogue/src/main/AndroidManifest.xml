@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.mpos.catalogue">
 
     <application android:allowBackup="true" android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name" android:supportsRtl="true" android:theme="@style/AppTheme"></application>
+        android:label="@string/app_name" android:supportsRtl="true" android:theme="@style/AppTheme">
+
+        <activity android:name="com.mpos.catalogue.database.AndroidDatabaseManager" />
+        <provider
+            android:name="com.mpos.catalogue.database.CatalogueProvider"
+            android:authorities="com.mpos.catalogue.contentprovider.database.CatalogueProvider"
+            android:exported="true"/>
+    </application>
 
 </manifest>

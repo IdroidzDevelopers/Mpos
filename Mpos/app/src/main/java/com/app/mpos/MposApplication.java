@@ -6,6 +6,9 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.hyperbound.network.util.NetworkApplication;
+import com.mpos.catalogue.CatalogueApplication;
+
 /**
  * Created by aarokiax on 12/28/2016.
  */
@@ -21,6 +24,8 @@ public class MposApplication extends Application {
         Log.d(TAG, "inside onCreate() ");
         createMposTable(this);
         sContext = this;
+        CatalogueApplication.setCatalogueContext(this);
+        NetworkApplication.setNetworkContext(this);
     }
 
     public static Context getContext() {

@@ -34,7 +34,7 @@ public class MposProvider extends ContentProvider {
     public static final String TABLE_SUBCATEGORY = "subcategory_table";
     private static final int DATABASE_VERSION = 1;
 
-    public static final String AUTHORITY = "com.app.mpos.contentprovider.database.MposProvider";
+    public static final String AUTHORITY = "com.app.mpos.contentprovider.database.NetworkProvider";
     private static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
     public static final Uri CONTENT_URI_CATEGORY_TABLE = Uri.parse(CONTENT_URI + "/" + TABLE_CATEGORY);
     public static final Uri CONTENT_URI_SUBCATEGORY_TABLE = Uri.parse(CONTENT_URI + "/"

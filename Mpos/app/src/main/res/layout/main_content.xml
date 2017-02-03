@@ -23,21 +23,23 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/sliding_tabs"
-            android:layout_width="400dp"
+            android:layout_width="700dp"
             android:layout_height="match_parent"
-            app:tabMode="scrollable"
+            app:tabMode="fixed"
             app:tabSelectedTextColor="@color/red"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingLeft="5dp"
+            android:paddingLeft="25dp"
             android:text="pending"
             android:textStyle="bold"
             android:paddingTop="19dp"
+            android:textSize="15sp"
             android:textColor="@color/red"
             />
+
         <ImageView
-            android:paddingLeft="5dp"
+            android:paddingLeft="25dp"
             android:layout_width="120dp"
             android:layout_height="match_parent"
             android:src="@drawable/logo"/>

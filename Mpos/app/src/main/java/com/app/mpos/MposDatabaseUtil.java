@@ -36,7 +36,7 @@ public class MposDatabaseUtil {
         Uri lUri = null;
         try {
             ContentValues contentValues = new ContentValues();
-            //contentValues.put(MposProvider.CATEGORY_ID, categoryId);
+            //contentValues.put(NetworkProvider.CATEGORY_ID, categoryId);
             contentValues.put(MposProvider.SUB_CATEGORY_ID, subCategoryId);
             contentValues.put(MposProvider.SUB_CATEGORY_NAME, subCategoryName);
             lUri = MposApplication.getContext().getContentResolver().insert(MposProvider.CONTENT_URI_SUBCATEGORY_TABLE, contentValues);

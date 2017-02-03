@@ -24,21 +24,23 @@ import java.util.ArrayList;
 /**
  * Provider class for Mpos app
  */
-public class CategoryProvider extends ContentProvider {
+public class CatalogueProvider extends ContentProvider {
 
-    private static final String TAG = CategoryProvider.class.getSimpleName();
+    private static final String TAG = CatalogueProvider.class.getSimpleName();
     private static final boolean DEBUG = true;
 
     public static final String DATABASE_NAME = "mpos.db";
     public static final String TABLE_CATEGORY = "category_table";
     public static final String TABLE_SUBCATEGORY = "subcategory_table";
+    public static final String TABLE_ITEM = "item_table";
     private static final int DATABASE_VERSION = 1;
 
-    public static final String AUTHORITY = "com.app.mpos.contentprovider.database.MposProvider";
+    public static final String AUTHORITY = "com.mpos.catalogue.contentprovider.database.CatalogueProvider";
     private static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
     public static final Uri CONTENT_URI_CATEGORY_TABLE = Uri.parse(CONTENT_URI + "/" + TABLE_CATEGORY);
     public static final Uri CONTENT_URI_SUBCATEGORY_TABLE = Uri.parse(CONTENT_URI + "/"
             + TABLE_SUBCATEGORY);
+    public static final Uri CONTENT_URI_ITEM_TABLE = Uri.parse(CONTENT_URI + "/" + TABLE_ITEM);
 
 
     public DatabaseHelper mDbHelper;
@@ -47,39 +49,42 @@ public class CategoryProvider extends ContentProvider {
      * Columns for the table
      */
     public static final String CATEGORY_ID = "categoryid";
+    public static final String LCATEGORY_ID = "lcategoryid";
     public static final String CATEGORY_KEY = "categorykey";
     public static final String CATEGORY_NAME = "categoryname";
     public static final String SUB_CATEGORY_ID = "subcategoryid";
+    public static final String LSUB_CATEGORY_ID = "lsubcategoryid";
     public static final String SUB_CATEGORY_KEY = "subcategorykey";
     public static final String SUB_CATEGORY_NAME = "subcategoryname";
-    public static final String ANCS_APP_ID = "appid";
-    public static final String ANCS_APP_TITLE = "title";
-    public static final String ANCS_APP_MESSAGE = "message";
-    public static final String ANCS_NOTIFICATION_UUID = "uuid";
-    public static final String ANCS_NOTIFICATION_TIMESTAMP = "timestamp";
-    public static final String NOTIFICATION_STATE = "notification_state";//added or removed
-    public static final String NOTIFICATION_SENT_STATE = "sent_state";
-    public static final String NOTIFICATION_PROCESSED_STATE = "process_state";
-    public static final String NOTIFICATION_ATTEMPT_COUNT = "attempt_count";
-    public static final String ANCS_APP_STATUS = "status";
-    public static final String ANCS_APP_VIB_STATUS = "vibstatus";
+    public static final String ITEM_ID = "itemid";
+    public static final String LITEM_ID = "litemid";
+    public static final String ITEM_NAME = "itemname";
+    public static final String ITEM_PRICE = "itemprice";
+    public static final String ITEM_CATEGORY = "itemcategory";
+    public static final String ITEM_SUB_CATEGORY= "itemsubcategory";
+    public static final String ITEM_IMAGE= "itemimage";
 
     private static final String CREATE_TABLE_CATEGORY_TABLE = "CREATE TABLE IF NOT EXISTS "
-            + TABLE_CATEGORY + "(" + CATEGORY_ID + " TEXT PRIMARY KEY,"
+            + TABLE_CATEGORY + "(" + LCATEGORY_ID + " TEXT PRIMARY KEY," + CATEGORY_ID + " TEXT,"
             + CATEGORY_NAME + " TEXT)";
     private static final String CREATE_TABLE_SUBCATEGORY_TABLE = "CREATE TABLE IF NOT EXISTS "
-            + TABLE_SUBCATEGORY + "(" + SUB_CATEGORY_ID + " TEXT PRIMARY KEY,"
-            + SUB_CATEGORY_NAME + " TEXT " + CATEGORY_ID + " TEXT)";
+            + TABLE_SUBCATEGORY + "(" + LSUB_CATEGORY_ID + " TEXT PRIMARY KEY," + SUB_CATEGORY_ID + " TEXT,"
+            + SUB_CATEGORY_NAME + " TEXT)";
+    private static final String CREATE_TABLE_ITEM_TABLE = "CREATE TABLE IF NOT EXISTS "
+            + TABLE_ITEM + "(" + LITEM_ID + " TEXT PRIMARY KEY," + ITEM_ID + " TEXT,"
+            + ITEM_NAME + " TEXT," + ITEM_CATEGORY + " TEXT," +ITEM_SUB_CATEGORY + " TEXT," + ITEM_PRICE + " INTEGER," + ITEM_IMAGE +" BLOB)";
 
 
     private static final int CASE_CATEGORY_TABLE = 1;
     private static final int CASE_SUBCATEGORY_TABLE = 2;
-    private static final int CASE_DEFAULT = 3;
+    private static final int CASE_ITEM_TABLE = 3;
+    private static final int CASE_DEFAULT = 4;
 
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         sUriMatcher.addURI(AUTHORITY, TABLE_CATEGORY, CASE_CATEGORY_TABLE);
         sUriMatcher.addURI(AUTHORITY, TABLE_SUBCATEGORY, CASE_SUBCATEGORY_TABLE);
+        sUriMatcher.addURI(AUTHORITY, TABLE_ITEM, CASE_ITEM_TABLE);
         sUriMatcher.addURI(AUTHORITY, "/*", CASE_DEFAULT);
     }
 
@@ -92,6 +97,8 @@ public class CategoryProvider extends ContentProvider {
 
             case CASE_SUBCATEGORY_TABLE:
                 return AUTHORITY + "/" + TABLE_SUBCATEGORY;
+            case CASE_ITEM_TABLE:
+                return AUTHORITY + "/" + TABLE_ITEM;
             case CASE_DEFAULT:
                 return AUTHORITY + "/*";
             default:
@@ -106,6 +113,7 @@ public class CategoryProvider extends ContentProvider {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.execSQL(CREATE_TABLE_CATEGORY_TABLE);
         db.execSQL(CREATE_TABLE_SUBCATEGORY_TABLE);
+        db.execSQL(CREATE_TABLE_ITEM_TABLE);
         return false;
     }
 
@@ -143,6 +151,9 @@ public class CategoryProvider extends ContentProvider {
             case CASE_SUBCATEGORY_TABLE:
                 lRowId = lDb.insertOrThrow(uri.getLastPathSegment(), null, values);
                 break;
+            case CASE_ITEM_TABLE:
+                lRowId = lDb.insertOrThrow(uri.getLastPathSegment(), null, values);
+                break;
             default:
                 break;
         }
@@ -159,13 +170,16 @@ public class CategoryProvider extends ContentProvider {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         switch (sUriMatcher.match(uri)) {
             case CASE_CATEGORY_TABLE:
-               // boolean tableExists = isTableExists(db, TABLE_CATEGORY);
+                // boolean tableExists = isTableExists(db, TABLE_CATEGORY);
                 //if (DEBUG) Log.d(TAG, "Table exists:: " + tableExists);
                 //if (tableExists)
-                    count = db.delete(uri.getLastPathSegment(), selection, selectionArgs);
-               // else Log.d(TAG, "Apps table does not exist ");
+                count = db.delete(uri.getLastPathSegment(), selection, selectionArgs);
+                // else Log.d(TAG, "Apps table does not exist ");
                 break;
             case CASE_SUBCATEGORY_TABLE:
+                count = db.delete(uri.getLastPathSegment(), selection, selectionArgs);
+                break;
+            case CASE_ITEM_TABLE:
                 count = db.delete(uri.getLastPathSegment(), selection, selectionArgs);
                 break;
             default:
@@ -183,6 +197,9 @@ public class CategoryProvider extends ContentProvider {
                 lCount = lDb.update(uri.getLastPathSegment(), values, selection, selectionArgs);
                 break;
             case CASE_SUBCATEGORY_TABLE:
+                lCount = lDb.update(uri.getLastPathSegment(), values, selection, selectionArgs);
+                break;
+            case CASE_ITEM_TABLE:
                 lCount = lDb.update(uri.getLastPathSegment(), values, selection, selectionArgs);
                 break;
             default:

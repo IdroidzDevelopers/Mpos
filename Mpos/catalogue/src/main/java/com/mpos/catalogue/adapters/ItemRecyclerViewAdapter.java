@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mpos.catalogue.R;
-import com.mpos.catalogue.model.ItemObject;
+import com.mpos.catalogue.model.Item;
 
 import java.util.List;
 
@@ -18,12 +18,17 @@ import java.util.List;
 
 public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerViewHolders> {
 
-    private List<ItemObject> itemList;
+    private List<Item> itemList;
     private Context context;
 
-    public ItemRecyclerViewAdapter(Context context, List<ItemObject> itemList) {
+    public ItemRecyclerViewAdapter(Context context, List<Item> itemList) {
         this.itemList = itemList;
         this.context = context;
+    }
+
+    public void setItems(List<Item> data){
+        itemList=data;
+        notifyDataSetChanged();
     }
 
     @Override

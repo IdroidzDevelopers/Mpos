@@ -1,1 +1,1 @@
-include ':app', ':catalogue', ':transaction', ':payment'
+include ':app', ':catalogue', ':transaction', ':payment', ':network'

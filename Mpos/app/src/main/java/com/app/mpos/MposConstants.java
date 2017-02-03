@@ -7,7 +7,7 @@ package com.app.mpos;
 public class MposConstants {
 
     //table uris
-    private static final String AUTHORITY = "com.app.mpos.MposProvider";
+    private static final String AUTHORITY = "com.app.mpos.NetworkProvider";
     private static final String CONTENT_URI = "content://" + AUTHORITY;
     public static final String CONTENT_URI_TABLE_MASTER = CONTENT_URI + "/" + "master";
     public static final String CONTENT_URI_COMMUNICATION = CONTENT_URI + "/" + "Table_";

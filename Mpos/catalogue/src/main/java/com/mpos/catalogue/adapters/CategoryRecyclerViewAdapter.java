@@ -21,12 +21,17 @@ import java.util.List;
 
 public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRecyclerViewAdapter.CategoryRecyclerViewHolders>{
 
-    public static List<Category> itemList;
+    public List<Category> itemList;
     private Context context;
 
     public CategoryRecyclerViewAdapter(Context context, List<Category> itemList) {
         this.itemList = itemList;
         this.context = context;
+    }
+
+    public void setCategories(List<Category> categories){
+        this.itemList=categories;
+        notifyDataSetChanged();
     }
 
     @Override
