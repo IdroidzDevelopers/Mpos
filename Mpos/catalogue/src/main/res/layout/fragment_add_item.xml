@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,86 +6,142 @@
     android:orientation="horizontal"
     tools:context="com.mpos.catalogue.view.AddItemFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
+    <LinearLayout
+        android:id="@+id/buttoncontainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp">
+        <Button
+            android:id="@+id/cancelitembutton"
+            android:layout_width="480dp"
+            android:layout_height="match_parent"
+            android:text="Cancel" />
+        <Button
+            android:id="@+id/additembutton"
+            android:layout_width="480dp"
+            android:layout_marginLeft="5dp"
+            android:layout_height="match_parent"
+            android:text="Submit" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/imagecontainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/itemdesccontainer"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="11dp">
+
+        <ImageButton
+            android:id="@+id/additemimage"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_add_photo" />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:textSize="20sp"
+            android:text="Add image"/>
+    </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/additemimage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_photo" />
+    <LinearLayout
+        android:id="@+id/itemdesccontainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/buttoncontainer"
+        android:layout_marginEnd="77dp">
 
-            <EditText
-                android:id="@+id/itemname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Enter item name" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/description_text"
+            android:textSize="25sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/price_text"
-                android:textSize="40sp" />
+        <EditText
+            android:id="@+id/itemdescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10" />
 
-            <EditText
-                android:id="@+id/itemprice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="0.00"
-                android:inputType="numberDecimal" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/quantity_text"
-                android:textSize="40sp" />
+    </LinearLayout>
 
-            <EditText
-                android:id="@+id/itemquantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="0"
-                android:inputType="numberDecimal" />
+    <LinearLayout
+        android:id="@+id/iteminfocontainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@+id/buttoncontainer"
+        android:layout_toStartOf="@+id/itemdesccontainer"
+        android:layout_marginEnd="89dp"
+        android:layout_marginBottom="24dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category_text"
-                android:textSize="40sp" />
+        <EditText
+            android:id="@+id/itemname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter item name" />
 
-            <Spinner
-                android:id="@+id/category_spinner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/price_text"
+            android:textSize="40sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/subcategory_text"
-                android:textSize="40sp" />
-            <Spinner
-                android:id="@+id/subcategory_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/itemprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="0.00"
+            android:inputType="numberDecimal" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/description_text"
-                android:textSize="40sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quantity_text"
+            android:textSize="40sp" />
 
-            <EditText
-                android:id="@+id/itemdescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10" />
-        </LinearLayout>
-    </ScrollView>
+        <EditText
+            android:id="@+id/itemquantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="0"
+            android:inputType="numberDecimal" />
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_text"
+            android:textSize="40sp" />
+
+        <Spinner
+            android:id="@+id/category_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/subcategory_text"
+            android:textSize="40sp" />
+
+        <Spinner
+            android:id="@+id/subcategory_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

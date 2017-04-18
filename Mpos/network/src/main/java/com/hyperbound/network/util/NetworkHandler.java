@@ -23,14 +23,14 @@ public class NetworkHandler extends Handler {
     }
 
     public static NetworkHandler getInstance() {
-        if (null != sInstance) {
+        if (null == sInstance) {
             synchronized (NetworkHandler.class) {
                 HandlerThread lThread = new HandlerThread("Network");
                 lThread.start();
-                if (null != sInstance) {
+                if (null == sInstance) {
                     sInstance = new NetworkHandler(lThread.getLooper());
                 }
-                lThread.quitSafely();
+               // lThread.quitSafely();
             }
         }
         return sInstance;
@@ -45,7 +45,12 @@ public class NetworkHandler extends Handler {
                 ShopData[] data = gson.fromJson(msg.getData().getString("data"), ShopData[].class);
                 if (data.length > 0) {
                     ShopData shopData = data[0];
-                    NetworkDatabaseUtil.insertAllCategories(shopData.getCategories());
+                    if(null!=shopData) {
+                        NetworkDatabaseUtil.insertAllCategories(shopData.getCategories());
+                        NetworkDatabaseUtil.insertAllSubcategories(shopData.getSubCategories());
+                        NetworkDatabaseUtil.insertAllDiscounts(shopData.getDiscounts());
+                        NetworkDatabaseUtil.insertAllOtherCharges(shopData.getCharges());
+                    }
                 }
                 break;
             }

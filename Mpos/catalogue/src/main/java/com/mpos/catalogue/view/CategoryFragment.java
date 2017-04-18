@@ -13,6 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -29,6 +32,9 @@ import com.mpos.catalogue.model.Category;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 
@@ -67,7 +73,9 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
         rView.setHasFixedSize(true);
         rView.setLayoutManager(lLayout);
         SlideInUpAnimator animator = new SlideInUpAnimator();
-        animator.setRemoveDuration(500);
+        animator.setRemoveDuration(1000);
+        animator.setAddDuration(1000);
+        animator.setInterpolator(new BounceInterpolator());
         rView.setItemAnimator(animator);
         getLoaderManager().initLoader(1, null, this).forceLoad();
         rcAdapter = new CategoryRecyclerViewAdapter(getActivity(), rowListItem);

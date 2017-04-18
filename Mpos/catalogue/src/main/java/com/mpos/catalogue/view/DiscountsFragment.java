@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -18,6 +19,8 @@ import com.mpos.catalogue.model.Discount;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +52,11 @@ public class DiscountsFragment extends Fragment implements View.OnClickListener{
         RecyclerView rView = (RecyclerView)rootView.findViewById(R.id.discount_recycler_view);
         rView.setHasFixedSize(true);
         rView.setLayoutManager(lLayout);
+        SlideInUpAnimator animator = new SlideInUpAnimator();
+        animator.setRemoveDuration(1000);
+        animator.setAddDuration(1000);
+        animator.setInterpolator(new BounceInterpolator());
+        rView.setItemAnimator(animator);
 
         DiscountRecyclerViewAdapter rcAdapter = new DiscountRecyclerViewAdapter(getActivity(), rowListItem);
         rView.setAdapter(rcAdapter);
@@ -58,9 +66,9 @@ public class DiscountsFragment extends Fragment implements View.OnClickListener{
 
     private List<Discount> getAllDiscountsList(){
         List<Discount> discountsList = new ArrayList<Discount>();
-        discountsList.add(new Discount(001,"Senior Citizen","20"));
-        discountsList.add(new Discount(002,"Student","15"));
-        discountsList.add(new Discount(003,"Online coupon","5"));
+        discountsList.add(new Discount(001,"Senior Citizen","20%"));
+        discountsList.add(new Discount(002,"Student","15%"));
+        discountsList.add(new Discount(003,"Online coupon","5%"));
 
         return discountsList;
     }

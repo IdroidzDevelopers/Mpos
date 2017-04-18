@@ -26,8 +26,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.3"
-                android:text="$ 100.00"
-                android:textSize="30sp" />
+                android:text="Rs.100.00"
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/chargename"
@@ -55,10 +55,10 @@
                 android:paddingLeft="40dp"
                 android:src="@drawable/ic_delete" />
 
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete" />
+                android:text="Delete" />-->
         </LinearLayout>
     </LinearLayout>
 

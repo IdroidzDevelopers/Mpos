@@ -59,7 +59,7 @@ public class CatalogueProvider extends ContentProvider {
     public static final String ITEM_ID = "itemid";
     public static final String LITEM_ID = "litemid";
     public static final String ITEM_NAME = "itemname";
-    public static final String ITEM_PRICE = "itemprice";
+    public static final String ITEM_UNIT_PRICE = "itemunitprice";
     public static final String ITEM_CATEGORY = "itemcategory";
     public static final String ITEM_SUB_CATEGORY= "itemsubcategory";
     public static final String ITEM_IMAGE= "itemimage";
@@ -72,7 +72,7 @@ public class CatalogueProvider extends ContentProvider {
             + SUB_CATEGORY_NAME + " TEXT)";
     private static final String CREATE_TABLE_ITEM_TABLE = "CREATE TABLE IF NOT EXISTS "
             + TABLE_ITEM + "(" + LITEM_ID + " TEXT PRIMARY KEY," + ITEM_ID + " TEXT,"
-            + ITEM_NAME + " TEXT," + ITEM_CATEGORY + " TEXT," +ITEM_SUB_CATEGORY + " TEXT," + ITEM_PRICE + " INTEGER," + ITEM_IMAGE +" BLOB)";
+            + ITEM_NAME + " TEXT," + ITEM_CATEGORY + " TEXT," +ITEM_SUB_CATEGORY + " TEXT," + ITEM_UNIT_PRICE + " INTEGER," + ITEM_IMAGE +" BLOB)";
 
 
     private static final int CASE_CATEGORY_TABLE = 1;

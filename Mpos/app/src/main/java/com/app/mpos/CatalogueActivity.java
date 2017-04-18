@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.ToxicBakery.viewpager.transforms.*;
+import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
 import com.mpos.catalogue.view.CategoryFragment;
 import com.mpos.catalogue.view.DiscountsFragment;
 import com.mpos.catalogue.view.ItemFragment;
@@ -50,6 +52,8 @@ public class CatalogueActivity extends AppCompatActivity implements NavigationVi
         });
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        //StackTransformer,FlipHorizontalTransformer,
+        //viewPager.setPageTransformer(true, new StackTransformer());
         FragmentManager fm=getSupportFragmentManager();
         viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager(),CatalogueActivity.this));
 

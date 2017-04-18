@@ -34,6 +34,8 @@ public class NetworkProvider extends ContentProvider {
     public static final String TABLE_CATEGORY = "category_table";
     public static final String TABLE_SUBCATEGORY = "subcategory_table";
     public static final String TABLE_ITEM = "item_table";
+    public static final String TABLE_DISCOUNT = "discount_table";
+    public static final String TABLE_OTHER_CHARGES = "ocharges_table";
     private static final int DATABASE_VERSION = 1;
 
     public static final String AUTHORITY = "com.hyperbound.network.database.NetworkProvider";
@@ -42,6 +44,8 @@ public class NetworkProvider extends ContentProvider {
     public static final Uri CONTENT_URI_SUBCATEGORY_TABLE = Uri.parse(CONTENT_URI + "/"
             + TABLE_SUBCATEGORY);
     public static final Uri CONTENT_URI_ITEM_TABLE = Uri.parse(CONTENT_URI + "/" + TABLE_ITEM);
+    public static final Uri CONTENT_URI_DISCOUNT_TABLE = Uri.parse(CONTENT_URI + "/" + TABLE_DISCOUNT);
+    public static final Uri CONTENT_URI_OTHER_CHARGES_TABLE = Uri.parse(CONTENT_URI + "/" + TABLE_OTHER_CHARGES);
 
 
     public DatabaseHelper mDbHelper;
@@ -60,10 +64,16 @@ public class NetworkProvider extends ContentProvider {
     public static final String ITEM_ID = "itemid";
     public static final String LITEM_ID = "litemid";
     public static final String ITEM_NAME = "itemname";
-    public static final String ITEM_PRICE = "itemprice";
+    public static final String ITEM_UNIT_PRICE = "itemunitprice";
     public static final String ITEM_CATEGORY = "itemcategory";
-    public static final String ITEM_SUB_CATEGORY= "itemsubcategory";
-    public static final String ITEM_IMAGE= "itemimage";
+    public static final String ITEM_SUB_CATEGORY = "itemsubcategory";
+    public static final String ITEM_IMAGE = "itemimage";
+    public static final String DISCOUNT_ID = "discountid";
+    public static final String DISCOUNT_NAME = "discountname";
+    public static final String DISCOUNT_PERCENT = "discountpercent";
+    public static final String OTHER_CHARGES_ID = "ochargesid";
+    public static final String OTHER_CHARGES_NAME = "ochargesname";
+    public static final String OTHER_CHARGES_VALUE = "ochargesvalue";
 
     private static final String CREATE_TABLE_CATEGORY_TABLE = "CREATE TABLE IF NOT EXISTS "
             + TABLE_CATEGORY + "(" + LCATEGORY_ID + " TEXT PRIMARY KEY," + CATEGORY_ID + " TEXT,"
@@ -73,19 +83,29 @@ public class NetworkProvider extends ContentProvider {
             + SUB_CATEGORY_NAME + " TEXT)";
     private static final String CREATE_TABLE_ITEM_TABLE = "CREATE TABLE IF NOT EXISTS "
             + TABLE_ITEM + "(" + LITEM_ID + " TEXT PRIMARY KEY," + ITEM_ID + " TEXT,"
-            + ITEM_NAME + " TEXT," + ITEM_CATEGORY + " TEXT," +ITEM_SUB_CATEGORY + " TEXT," + ITEM_PRICE + " INTEGER," + ITEM_IMAGE +" BLOB)";
+            + ITEM_NAME + " TEXT," + ITEM_CATEGORY + " TEXT," + ITEM_SUB_CATEGORY + " TEXT," + ITEM_UNIT_PRICE + " INTEGER," + ITEM_IMAGE + " BLOB)";
+    private static final String CREATE_TABLE_DISCOUNT_TABLE = "CREATE TABLE IF NOT EXISTS "
+            + TABLE_DISCOUNT + "(" + DISCOUNT_ID + " TEXT PRIMARY KEY," + DISCOUNT_NAME + " TEXT,"
+            + DISCOUNT_PERCENT + " INTEGER)";
+    private static final String CREATE_TABLE_OTHER_CHARGES_TABLE = "CREATE TABLE IF NOT EXISTS "
+            + TABLE_OTHER_CHARGES + "(" + OTHER_CHARGES_ID + " TEXT PRIMARY KEY," + OTHER_CHARGES_NAME + " TEXT,"
+            + OTHER_CHARGES_VALUE + " INTEGER)";
 
 
     private static final int CASE_CATEGORY_TABLE = 1;
     private static final int CASE_SUBCATEGORY_TABLE = 2;
     private static final int CASE_ITEM_TABLE = 3;
-    private static final int CASE_DEFAULT = 4;
+    private static final int CASE_DISCOUNT_TABLE = 4;
+    private static final int CASE_OTHER_CHARGES_TABLE = 5;
+    private static final int CASE_DEFAULT = 6;
 
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         sUriMatcher.addURI(AUTHORITY, TABLE_CATEGORY, CASE_CATEGORY_TABLE);
         sUriMatcher.addURI(AUTHORITY, TABLE_SUBCATEGORY, CASE_SUBCATEGORY_TABLE);
         sUriMatcher.addURI(AUTHORITY, TABLE_ITEM, CASE_ITEM_TABLE);
+        sUriMatcher.addURI(AUTHORITY, TABLE_DISCOUNT, CASE_DISCOUNT_TABLE);
+        sUriMatcher.addURI(AUTHORITY, TABLE_OTHER_CHARGES, CASE_OTHER_CHARGES_TABLE);
         sUriMatcher.addURI(AUTHORITY, "/*", CASE_DEFAULT);
     }
 
@@ -95,11 +115,14 @@ public class NetworkProvider extends ContentProvider {
         switch (match) {
             case CASE_CATEGORY_TABLE:
                 return AUTHORITY + "/" + TABLE_CATEGORY;
-
             case CASE_SUBCATEGORY_TABLE:
                 return AUTHORITY + "/" + TABLE_SUBCATEGORY;
             case CASE_ITEM_TABLE:
                 return AUTHORITY + "/" + TABLE_ITEM;
+            case CASE_DISCOUNT_TABLE:
+                return AUTHORITY + "/" + TABLE_DISCOUNT;
+            case CASE_OTHER_CHARGES_TABLE:
+                return AUTHORITY + "/" + TABLE_OTHER_CHARGES;
             case CASE_DEFAULT:
                 return AUTHORITY + "/*";
             default:
@@ -115,6 +138,8 @@ public class NetworkProvider extends ContentProvider {
         db.execSQL(CREATE_TABLE_CATEGORY_TABLE);
         db.execSQL(CREATE_TABLE_SUBCATEGORY_TABLE);
         db.execSQL(CREATE_TABLE_ITEM_TABLE);
+        db.execSQL(CREATE_TABLE_DISCOUNT_TABLE);
+        db.execSQL(CREATE_TABLE_OTHER_CHARGES_TABLE);
         return false;
     }
 
@@ -130,6 +155,21 @@ public class NetworkProvider extends ContentProvider {
                 break;
 
             case CASE_SUBCATEGORY_TABLE:
+                queryBuilder.setTables(uri.getLastPathSegment());
+                lCursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+                break;
+
+            case CASE_ITEM_TABLE:
+                queryBuilder.setTables(uri.getLastPathSegment());
+                lCursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+                break;
+
+            case CASE_DISCOUNT_TABLE:
+                queryBuilder.setTables(uri.getLastPathSegment());
+                lCursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+                break;
+
+            case CASE_OTHER_CHARGES_TABLE:
                 queryBuilder.setTables(uri.getLastPathSegment());
                 lCursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
@@ -155,6 +195,12 @@ public class NetworkProvider extends ContentProvider {
             case CASE_ITEM_TABLE:
                 lRowId = lDb.insertOrThrow(uri.getLastPathSegment(), null, values);
                 break;
+            case CASE_DISCOUNT_TABLE:
+                lRowId = lDb.insertOrThrow(uri.getLastPathSegment(), null, values);
+                break;
+            case CASE_OTHER_CHARGES_TABLE:
+                lRowId = lDb.insertOrThrow(uri.getLastPathSegment(), null, values);
+                break;
             default:
                 break;
         }
@@ -171,16 +217,18 @@ public class NetworkProvider extends ContentProvider {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         switch (sUriMatcher.match(uri)) {
             case CASE_CATEGORY_TABLE:
-               // boolean tableExists = isTableExists(db, TABLE_CATEGORY);
-                //if (DEBUG) Log.d(TAG, "Table exists:: " + tableExists);
-                //if (tableExists)
-                    count = db.delete(uri.getLastPathSegment(), selection, selectionArgs);
-               // else Log.d(TAG, "Apps table does not exist ");
+                count = db.delete(uri.getLastPathSegment(), selection, selectionArgs);
                 break;
             case CASE_SUBCATEGORY_TABLE:
                 count = db.delete(uri.getLastPathSegment(), selection, selectionArgs);
                 break;
             case CASE_ITEM_TABLE:
+                count = db.delete(uri.getLastPathSegment(), selection, selectionArgs);
+                break;
+            case CASE_DISCOUNT_TABLE:
+                count = db.delete(uri.getLastPathSegment(), selection, selectionArgs);
+                break;
+            case CASE_OTHER_CHARGES_TABLE:
                 count = db.delete(uri.getLastPathSegment(), selection, selectionArgs);
                 break;
             default:
@@ -201,6 +249,12 @@ public class NetworkProvider extends ContentProvider {
                 lCount = lDb.update(uri.getLastPathSegment(), values, selection, selectionArgs);
                 break;
             case CASE_ITEM_TABLE:
+                lCount = lDb.update(uri.getLastPathSegment(), values, selection, selectionArgs);
+                break;
+            case CASE_DISCOUNT_TABLE:
+                lCount = lDb.update(uri.getLastPathSegment(), values, selection, selectionArgs);
+                break;
+            case CASE_OTHER_CHARGES_TABLE:
                 lCount = lDb.update(uri.getLastPathSegment(), values, selection, selectionArgs);
                 break;
             default:

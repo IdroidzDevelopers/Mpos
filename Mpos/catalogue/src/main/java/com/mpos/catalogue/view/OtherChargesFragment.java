@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -17,6 +18,8 @@ import com.mpos.catalogue.model.Charges;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 
 /**
@@ -49,6 +52,11 @@ public class OtherChargesFragment extends Fragment implements View.OnClickListen
         RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.charge_recycler_view);
         rView.setHasFixedSize(true);
         rView.setLayoutManager(lLayout);
+        SlideInUpAnimator animator = new SlideInUpAnimator();
+        animator.setRemoveDuration(1000);
+        animator.setAddDuration(1000);
+        animator.setInterpolator(new BounceInterpolator());
+        rView.setItemAnimator(animator);
 
         ChargeRecyclerViewAdapter rcAdapter = new ChargeRecyclerViewAdapter(getActivity(), rowListItem);
         rView.setAdapter(rcAdapter);
@@ -57,9 +65,9 @@ public class OtherChargesFragment extends Fragment implements View.OnClickListen
 
     private List<Charges> getAllChargesList() {
         List<Charges> chargesList = new ArrayList<Charges>();
-        chargesList.add(new Charges(001, "Shipping Charges", "150"));
-        chargesList.add(new Charges(002, "Packing Charges", "50"));
-        chargesList.add(new Charges(003, "Gift Pack", "120"));
+        chargesList.add(new Charges(001, "Shipping Charges", "Rs.150"));
+        chargesList.add(new Charges(002, "Packing Charges", "Rs.50"));
+        chargesList.add(new Charges(003, "Gift Pack", "Rs.120"));
 
         return chargesList;
     }

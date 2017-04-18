@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.hyperbound.network.model.Category;
+import com.hyperbound.network.model.Charges;
+import com.hyperbound.network.model.Discount;
 import com.hyperbound.network.model.Item;
 import com.hyperbound.network.model.SubCategory;
 import com.hyperbound.network.util.NetworkApplication;
@@ -39,19 +41,115 @@ public class NetworkDatabaseUtil {
 
     public static Uri insertAllCategories(List<Category> categoryList) {
         Uri lUri = null;
-        try {
-            List<Category> list=categoryList;
-            Iterator<Category> listiterator=list.iterator();
-            while (listiterator.hasNext()){
-                Category category=listiterator.next();
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(NetworkProvider.CATEGORY_ID, category.getCategoryID());
-                contentValues.put(NetworkProvider.CATEGORY_NAME, category.getName());
-                lUri = NetworkApplication.getNetworkContext().getContentResolver().insert(NetworkProvider.CONTENT_URI_CATEGORY_TABLE, contentValues);
-                Log.d(TAG, "--(Mpos)-- insertCategory ::" + lUri);
+        if(null!=categoryList&&categoryList.size()>0) {
+            try {
+                List<Category> list = categoryList;
+                Iterator<Category> listiterator = list.iterator();
+                while (listiterator.hasNext()) {
+                    Category category = listiterator.next();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(NetworkProvider.CATEGORY_ID, category.getCategoryID());
+                    contentValues.put(NetworkProvider.CATEGORY_NAME, category.getName());
+                    lUri = NetworkApplication.getNetworkContext().getContentResolver().insert(NetworkProvider.CONTENT_URI_CATEGORY_TABLE, contentValues);
+                    Log.d(TAG, "--(Mpos)-- insertAllCategories ::" + lUri);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Exception happened in insert::" + e.getMessage());
             }
-        } catch (Exception e) {
-            Log.e(TAG, "Exception happened in insert::" + e.getMessage());
+        }
+
+        return lUri;
+    }
+
+    public static Uri insertAllSubcategories(List<SubCategory> subCategoryList) {
+        Uri lUri = null;
+        if(null!=subCategoryList&&subCategoryList.size()>0) {
+            try {
+                List<SubCategory> list = subCategoryList;
+                Iterator<SubCategory> listiterator = list.iterator();
+                while (listiterator.hasNext()) {
+                    SubCategory subCategory = listiterator.next();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(NetworkProvider.SUB_CATEGORY_ID, subCategory.getSubCategoryID());
+                    contentValues.put(NetworkProvider.SUB_CATEGORY_NAME, subCategory.getName());
+                    lUri = NetworkApplication.getNetworkContext().getContentResolver().insert(NetworkProvider.CONTENT_URI_SUBCATEGORY_TABLE, contentValues);
+                    Log.d(TAG, "--(Mpos)-- insertAllSubcategories ::" + lUri);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Exception happened in insert::" + e.getMessage());
+            }
+        }
+
+        return lUri;
+    }
+
+    public static Uri insertAllDiscounts(List<Discount> discountsList) {
+        Uri lUri = null;
+        if(null!=discountsList&&discountsList.size()>0) {
+            try {
+                List<Discount> list = discountsList;
+                Iterator<Discount> listiterator = list.iterator();
+                while (listiterator.hasNext()) {
+                    Discount discount = listiterator.next();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(NetworkProvider.DISCOUNT_ID, discount.getDiscountID());
+                    contentValues.put(NetworkProvider.DISCOUNT_NAME, discount.getName());
+                    contentValues.put(NetworkProvider.DISCOUNT_PERCENT, discount.getPercentage());
+                    lUri = NetworkApplication.getNetworkContext().getContentResolver().insert(NetworkProvider.CONTENT_URI_DISCOUNT_TABLE, contentValues);
+                    Log.d(TAG, "--(Mpos)-- insertAllDiscounts ::" + lUri);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Exception happened in insert::" + e.getMessage());
+            }
+        }
+
+        return lUri;
+    }
+
+    public static Uri insertAllOtherCharges(List<Charges> chargesList) {
+        Uri lUri = null;
+        if(null!=chargesList&&chargesList.size()>0) {
+            try {
+                List<Charges> list = chargesList;
+                Iterator<Charges> listiterator = list.iterator();
+                while (listiterator.hasNext()) {
+                    Charges charge = listiterator.next();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(NetworkProvider.OTHER_CHARGES_ID, charge.getChargeID());
+                    contentValues.put(NetworkProvider.OTHER_CHARGES_NAME, charge.getName());
+                    contentValues.put(NetworkProvider.OTHER_CHARGES_VALUE, charge.getAmount());
+                    lUri = NetworkApplication.getNetworkContext().getContentResolver().insert(NetworkProvider.CONTENT_URI_OTHER_CHARGES_TABLE, contentValues);
+                    Log.d(TAG, "--(Mpos)-- insertAllOtherCharges ::" + lUri);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Exception happened in insert::" + e.getMessage());
+            }
+        }
+
+        return lUri;
+    }
+
+    public static Uri insertAllItems(List<Item> itemslist) {
+        Uri lUri = null;
+        if(null!=itemslist&&itemslist.size()>0) {
+            try {
+                List<Item> list = itemslist;
+                Iterator<Item> listiterator = list.iterator();
+                while (listiterator.hasNext()) {
+                    Item item = listiterator.next();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(NetworkProvider.ITEM_ID, item.getItemID());
+                    contentValues.put(NetworkProvider.ITEM_NAME, item.getName());
+                    contentValues.put(NetworkProvider.ITEM_UNIT_PRICE, item.getItemUnitPrice());
+                    contentValues.put(NetworkProvider.ITEM_CATEGORY, item.getCategoryName());
+                    contentValues.put(NetworkProvider.ITEM_SUB_CATEGORY, item.getSubCategoryName());
+                    contentValues.put(NetworkProvider.ITEM_IMAGE, item.getItemImage());
+                    lUri = NetworkApplication.getNetworkContext().getContentResolver().insert(NetworkProvider.CONTENT_URI_ITEM_TABLE, contentValues);
+                    Log.d(TAG, "--(Mpos)-- insertAllOtherCharges ::" + lUri);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Exception happened in insert::" + e.getMessage());
+            }
         }
 
         return lUri;
@@ -134,7 +232,7 @@ public class NetworkDatabaseUtil {
             contentValues.put(NetworkProvider.ITEM_ID, itemId);
             contentValues.put(NetworkProvider.ITEM_CATEGORY, catergoryId);
             contentValues.put(NetworkProvider.ITEM_SUB_CATEGORY, subCategoryId);
-            contentValues.put(NetworkProvider.ITEM_PRICE, itemPrice);
+            contentValues.put(NetworkProvider.ITEM_UNIT_PRICE, itemPrice);
             contentValues.put(NetworkProvider.ITEM_IMAGE, itemImage);
             lUri = NetworkApplication.getNetworkContext().getContentResolver().insert(NetworkProvider.CONTENT_URI_ITEM_TABLE, contentValues);
             Log.d(TAG, "--(Mpos)-- addItem ::" + lUri);
@@ -160,7 +258,7 @@ public class NetworkDatabaseUtil {
                     items.setName(lCursor.getString(lCursor.getColumnIndex(NetworkProvider.ITEM_NAME)));
                     items.setCategoryName(lCursor.getString(lCursor.getColumnIndex(NetworkProvider.ITEM_CATEGORY)));
                     items.setSubCategoryName(lCursor.getString(lCursor.getColumnIndex(NetworkProvider.ITEM_SUB_CATEGORY)));
-                    items.setItemUnitPrice(lCursor.getInt(lCursor.getColumnIndex(NetworkProvider.ITEM_PRICE)));
+                    items.setItemUnitPrice(lCursor.getInt(lCursor.getColumnIndex(NetworkProvider.ITEM_UNIT_PRICE)));
                     items.setItemImage(lCursor.getBlob(lCursor.getColumnIndex(NetworkProvider.ITEM_IMAGE)));
                     itemsList.add(items);
                 }

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/topbar"
-        android:background="#EEEEEE">
+        android:background="@color/tabcolor">
         <Button
             android:id="@+id/drwaerbutton"
             android:layout_width="40dp"
@@ -23,9 +23,10 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/sliding_tabs"
-            android:layout_width="700dp"
+            android:layout_width="570dp"
             android:layout_height="match_parent"
-            app:tabMode="fixed"
+            app:tabMode="scrollable"
+            app:tabMinWidth="180dp"
             app:tabSelectedTextColor="@color/red"/>
         <TextView
             android:layout_width="wrap_content"
@@ -37,12 +38,16 @@
             android:textSize="15sp"
             android:textColor="@color/red"
             />
-
         <ImageView
             android:paddingLeft="25dp"
-            android:layout_width="120dp"
+            android:layout_width="205dp"
             android:layout_height="match_parent"
-            android:src="@drawable/logo"/>
+            android:src="@drawable/hyperboundlogoname"/>
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/hyberboundlogo"/>
+
 
     </LinearLayout>
 

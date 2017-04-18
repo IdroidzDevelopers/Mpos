@@ -4,7 +4,7 @@ package com.mpos.catalogue.loader;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
-import com.hyperbound.network.database.NetworkDatabaseUtil;
+
 import com.mpos.catalogue.R;
 import com.mpos.catalogue.database.CatalogueDatabaseUtil;
 import com.mpos.catalogue.model.Category;
